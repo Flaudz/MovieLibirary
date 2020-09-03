@@ -23,6 +23,7 @@ namespace MovieLibirary
     {
         MiddleClass middleClass = new MiddleClass();
         public int columnPos = 1;
+        public int rowPos = 1;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,15 +35,30 @@ namespace MovieLibirary
         {
             for(int i = 0; i < middleClass.Movies.Count; i++)
             {
-                MessageBox.Show("ad");
+                if(columnPos == 11)
+                {
+                    columnPos = 1;
+                    rowPos += 2;
+                }
                 BitmapImage movieImg = new BitmapImage(new Uri(@$"{middleClass.Movies[i].Url}"));
 
                 Image movieImage = new Image();
                 movieImage.Source = movieImg;
+                movieImage.Tag = middleClass.Movies[i].Name;
                 Grid.SetColumn(movieImage, columnPos);
-                Grid.SetRow(movieImage, 1);
+                Grid.SetRow(movieImage, rowPos);
                 columnPos += 2;
-                firstGrid.Children.Add(movieImage);
+                if (columnPos == 13 && rowPos == 3)
+                {
+                    columnPos = 1;
+                    rowPos = 1;
+                    secondPage.Children.Add(movieImage);
+                }
+                else
+                {
+                    firstPage.Children.Add(movieImage);
+
+                }
             }
         }
     }
